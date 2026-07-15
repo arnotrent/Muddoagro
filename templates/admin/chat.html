@@ -1,0 +1,28 @@
+{% extends "admin/base_admin.html" %}
+{% load static muddo_filters %}
+{% block title %}Messages{% endblock %}{% block page_icon %}comments{% endblock %}{% block page_heading %}Agent Messages{% endblock %}
+{% block content %}
+<div class="chat-layout">
+  <div class="chat-sidebar-panel">
+    <div style="padding:14px 16px;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-bottom:1px solid var(--border-color)">Field Agents ({{ agents|length }})</div>
+    {% for a in agents %}
+    <div class="chat-contact" data-id="{{ a.id }}" data-role="agent" data-name="{{ a.name }}" data-status="{% if a.is_online %}online{% else %}offline{% endif %}">
+      <div class="chat-avatar">{{ a.name|first|upper }}{% if a.is_online %}<span class="online-dot"></span>{% else %}<span class="offline-dot"></span>{% endif %}</div>
+      <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:.88rem;color:var(--text-primary)">{{ a.name }}</div><div style="font-size:.72rem;color:var(--text-muted)">{{ a.region|default:"—" }}</div></div>
+      {% with sid=a.id|stringformat:"d" %}{% if unread_map|get_item:sid %}<span style="background:var(--orange);color:#fff;font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:100px;flex-shrink:0">{{ unread_map|get_item:sid }}</span>{% endif %}{% endwith %}
+    </div>{% empty %}
+    <div style="padding:28px;text-align:center;color:var(--text-muted);font-size:.86rem"><i class="fas fa-users" style="font-size:2rem;display:block;margin-bottom:10px;opacity:.4"></i>No agents yet.<br><a href="{% url 'admin_agents' %}" style="color:var(--orange)">Add agents →</a></div>
+    {% endfor %}
+  </div>
+  <div class="chat-area-panel">
+    <div id="chatEmpty" class="chat-empty"><i class="fas fa-comments" style="font-size:3.5rem;margin-bottom:16px;color:var(--border-color);opacity:.5"></i><h3 style="font-size:1rem;font-weight:700;color:var(--text-secondary);margin-bottom:8px">Select an agent to message</h3><p style="font-size:.86rem">Choose a field agent from the left panel.</p></div>
+    <div id="chatMain" style="display:none;flex-direction:column;height:100%">
+      <div class="chat-top-bar"><div class="chat-avatar" id="chatHdrAvatar">?</div><div><div id="chatHdrName" style="font-weight:800;font-size:.96rem;color:var(--text-primary)">Agent</div><div id="chatHdrStatus" style="font-size:.74rem;color:var(--text-muted)">—</div></div></div>
+      <div class="chat-msgs-wrap" id="chatMessages"></div>
+      <div class="chat-input-row"><textarea id="chatInput" placeholder="Type a message…"></textarea><button id="chatSendBtn" style="padding:10px 18px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;align-self:flex-end"><i class="fas fa-paper-plane"></i></button></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/chat.js' %}"></script>
+<script>document.querySelectorAll('.chat-contact[data-id]').forEach(el=>el.addEventListener('click',()=>{if(window.muddoChat)window.muddoChat.selectContact(el)}));</script>{% endblock %}

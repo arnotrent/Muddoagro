@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block nav_products %}active{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/products.css' %}">
+<style>
+.page-hero{background:linear-gradient(135deg,{{ hero_color_dark }} 0%,{{ hero_color }} 55%,#0d0d1a 100%);padding:76px 0 52px;position:relative;overflow:hidden}
+.page-hero::after{content:'';position:absolute;top:-30%;right:-5%;width:480px;height:480px;background:radial-gradient(circle,rgba(232,101,26,.18) 0%,transparent 65%);pointer-events:none}
+.breadcrumb{font-size:.82rem;color:rgba(255,255,255,.55);margin-bottom:14px}
+.breadcrumb a{color:rgba(255,255,255,.65);text-decoration:none}.breadcrumb a:hover{color:#ffd080}
+.cat-tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.cat-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:100px;font-size:.84rem;font-weight:700;text-decoration:none;transition:all .2s;border:1.5px solid var(--border-color);background:var(--bg-card);color:var(--text-secondary)}
+.cat-tab:hover{border-color:var(--orange);color:var(--orange)}
+.cat-tab.active{background:var(--orange);color:#fff;border-color:var(--orange);box-shadow:0 4px 14px rgba(232,101,26,.35)}
+</style>{% endblock %}
+{% block title %}{{ page_title }} — Muddo Agro Chemicals LTD{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'index' %}">Home</a> / <span style="color:#ffd080;font-weight:700">{{ page_title }}</span></div>
+    <div style="display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:100px;background:rgba(232,101,26,.15);border:1px solid rgba(232,101,26,.28);color:#ffd080;font-size:.73rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px"><i class="fas fa-{{ hero_icon }}"></i>{{ page_tag }}</div>
+    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3rem);font-weight:900;color:#fff;margin:12px 0">{{ page_title }}</h1>
+    <p style="color:rgba(255,255,255,.8);font-size:1rem;line-height:1.72;max-width:55ch;margin-bottom:24px">{{ page_desc }}</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="{% url 'contact' %}?subject=Product+Enquiry" class="btn-green" style="padding:10px 22px;border-radius:9px"><i class="fas fa-envelope"></i>Enquire About Any Product</a>
+      <a href="{% url 'compare' %}" class="btn-outline" style="padding:10px 18px;border-radius:9px;border-color:rgba(255,255,255,.3);color:#fff"><i class="fas fa-balance-scale"></i>Compare Products</a>
+    </div>
+  </div>
+</section>
+<section class="section"><div class="container">
+  <div class="cat-tabs">
+    {% for tab_title,tab_url,tab_icon in cat_tabs %}
+    <a href="{% url tab_url %}" class="cat-tab {% if tab_title == page_title %}active{% endif %}"><i class="fas fa-{{ tab_icon }}"></i>{{ tab_title }}</a>
+    {% endfor %}
+  </div>
+  <div class="filter-bar">
+    <div class="filter-search"><i class="fas fa-search"></i><input type="text" id="prodFilter" placeholder="Search by name, active ingredient or crop…" oninput="filterCards(this.value)" autocomplete="off"></div>
+    <div class="filter-count" id="prodCount">{{ products|length }} product{% if products|length != 1 %}s{% endif %}</div>
+  </div>
+  {% if products %}
+  <div class="products-grid" id="productsGrid">
+    {% for p in products %}
+    <div class="product-card" data-id="{{ p.id }}" data-name="{{ p.name }}" data-cat="{{ p.category }}" data-desc="{{ p.description|truncatechars:220 }}" data-img="{{ p.display_image }}" data-ingr="{{ p.active_ingredient }}" data-form="{{ p.formulation }}" data-crops="{{ p.crops }}" data-dose="{{ p.dosage }}" data-pack="{{ p.packing }}" data-stock="{{ p.stock_qty }}" data-search="{{ p.name|lower }} {{ p.active_ingredient|lower }} {{ p.crops|lower }} {{ p.formulation|lower }}">
+      <div class="product-card-img">
+        <img src="{{ p.display_image }}" alt="{{ p.name }}" loading="lazy" onerror="this.src='{% static 'images/products_all.png' %}'">
+        {% if p.stock_qty == 0 %}<span class="stock-badge stock-out"><i class="fas fa-times-circle"></i>Out of Stock</span>{% elif p.stock_qty <= 10 %}<span class="stock-badge stock-low"><i class="fas fa-exclamation-circle"></i>Low Stock</span>{% else %}<span class="stock-badge stock-in"><i class="fas fa-check-circle"></i>In Stock</span>{% endif %}
+        <button class="quick-view-btn"><i class="fas fa-eye"></i>Quick View</button>
+      </div>
+      <div class="product-card-body">
+        <span class="product-tag tag-{{ p.category }}">{% if p.category == 'pesticide' %}<i class="fas fa-bug"></i>{% elif p.category == 'herbicide' %}<i class="fas fa-seedling"></i>{% elif p.category == 'fungicide' %}<i class="fas fa-microscope"></i>{% else %}<i class="fas fa-boxes"></i>{% endif %}{{ p.get_category_display }}</span>
+        <h3>{{ p.name }}</h3>
+        <p>{{ p.description|truncatechars:95 }}</p>
+        <div class="spec-pills">
+          {% if p.active_ingredient %}<div class="spec-pill"><strong>A.I.:</strong>{{ p.active_ingredient|truncatechars:40 }}</div>{% endif %}
+          {% if p.crops %}<div class="spec-pill"><i class="fas fa-leaf" style="color:var(--orange);font-size:.62rem"></i>{{ p.crops|truncatechars:38 }}</div>{% endif %}
+          {% if p.packing %}<div class="spec-pill"><i class="fas fa-box" style="color:var(--blue);font-size:.62rem"></i>{{ p.packing }}</div>{% endif %}
+        </div>
+        <div class="product-card-footer">
+          <a href="{{ p.get_absolute_url }}" class="btn-outline" onclick="event.stopPropagation()"><i class="fas fa-info-circle"></i>Details</a>
+          <a href="{% url 'contact' %}?subject=Product+Enquiry" class="btn-green" style="flex:1;justify-content:center" onclick="event.stopPropagation()"><i class="fas fa-envelope"></i>Enquire</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div id="noResults" style="display:none;grid-column:1/-1;text-align:center;padding:48px 0;color:var(--text-muted)"><i class="fas fa-search" style="font-size:2.5rem;display:block;margin-bottom:12px;color:var(--border-color)"></i><h4>No products match your search</h4><p>Try a different keyword or <a href="#" onclick="document.getElementById('prodFilter').value='';filterCards('');return false" style="color:var(--orange)">clear the filter</a>.</p></div>
+  </div>
+  {% else %}
+  <div class="empty-state"><i class="fas fa-box-open"></i><h3>No {{ page_title }} listed yet</h3><p>Contact us directly — we stock a wide range of products not yet listed online.</p><a href="{% url 'contact' %}" class="btn-green" style="margin-top:20px;display:inline-flex"><i class="fas fa-envelope"></i>Ask About Availability</a></div>
+  {% endif %}
+</div></section>
+{% endblock %}
+{% block extra_js %}
+<script>
+function filterCards(q){const term=q.toLowerCase().trim(),cards=document.querySelectorAll('.product-card[data-search]');let shown=0;cards.forEach(c=>{const m=!term||c.dataset.search.includes(term);c.style.display=m?'':'none';if(m)shown++});document.getElementById('prodCount').textContent=shown+' product'+(shown!==1?'s':'');document.getElementById('noResults').style.display=shown===0?'block':'none'}
+document.getElementById('prodFilter')?.addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';filterCards('')}});
+</script>
+{% endblock %}
