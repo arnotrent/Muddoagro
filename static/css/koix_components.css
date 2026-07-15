@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════════════════════
+   MUDDO AGRO — KOIX COMPONENT SYSTEM  v1
+   Load AFTER theme_vars.css and BEFORE page-specific CSS.
+   Drop into: static/css/koix_components.css
+   Then link it in base.html:
+   <link rel="stylesheet" href="{% static 'css/koix_components.css' %}">
+═══════════════════════════════════════════════════════════ */
+
+/* ── FONT IMPORT (add to <head> in base.html, replacing the
+   Playfair Display / DM Sans import) ─────────────────────────
+   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+*/
+
+* { box-sizing: border-box; }
+body {
+  font-family: var(--font-body);
+  color: var(--text-2);
+  background: var(--bg);
+  transition: background .3s, color .3s;
+}
+h1, h2, h3, h4, h5, .heading-font {
+  font-family: var(--font-heading);
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+
+/* ══════════════════════════════════════════════════════════
+   KOIX HERO — dark navy panel, radial mint glow, brand-blue base
+══════════════════════════════════════════════════════════ */
+.koix-hero {
+  position: relative;
+  background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(110,231,160,.16) 0%, transparent 60%),
+              linear-gradient(160deg, var(--blue-deep) 0%, #081018 55%, #05090c 100%);
+  border-radius: 28px;
+  overflow: hidden;
+  padding: 64px 48px;
+}
+[data-theme="dark"] .koix-hero {
+  background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(110,231,160,.12) 0%, transparent 60%),
+              linear-gradient(160deg, #050a08 0%, #06100c 55%, #030503 100%);
+}
+.koix-hero h1, .koix-hero h2 { color: #fff; }
+.koix-hero p { color: rgba(255,255,255,.78); }
+.koix-hero .accent { color: var(--mint); }
+
+.koix-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 100px;
+  background: rgba(110,231,160,.14);
+  border: 1px solid rgba(110,231,160,.3);
+  color: var(--mint);
+  font-size: .75rem; font-weight: 700; letter-spacing: .04em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ICON-BADGE CARDS — the core KOIX "benefit card" component
+   Use for: why-choose-us, product categories, feature grids
+══════════════════════════════════════════════════════════ */
+.icon-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+.icon-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 26px 24px;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, border-color .25s;
+}
+.icon-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--mint-dark);
+  box-shadow: var(--sh-md);
+}
+.icon-card .icon-badge {
+  width: 46px; height: 46px;
+  border-radius: 14px;
+  background: var(--mint);
+  color: var(--mint-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+}
+.icon-card h3 {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--text-1);
+  margin: 0 0 6px;
+}
+.icon-card p {
+  font-size: .87rem;
+  color: var(--text-3);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Dark variant — for use on .koix-hero or dark sections */
+.icon-card.on-dark {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.1);
+}
+.icon-card.on-dark h3 { color: #fff; }
+.icon-card.on-dark p  { color: rgba(255,255,255,.68); }
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS — mint primary (KOIX), blue secondary
+══════════════════════════════════════════════════════════ */
+.btn-mint, .btn-green, .btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 12px;
+  background: var(--mint); color: var(--mint-deep) !important;
+  font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: transform .2s, box-shadow .2s, background .2s;
+}
+.btn-mint:hover, .btn-green:hover, .btn-primary:hover {
+  background: var(--mint-glow);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-mint);
+}
+.btn-blue, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 12px;
+  background: var(--blue); color: #fff !important;
+  font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
+  border: none; cursor: pointer; text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-blue:hover, .btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--sh-blue); }
+
+.btn-outline-koix {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 12px;
+  background: transparent; border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
+  text-decoration: none; transition: all .2s;
+}
+.btn-outline-koix:hover { border-color: var(--mint); color: var(--mint); }
+
+/* ══════════════════════════════════════════════════════════
+   PILL NAVBAR — floating rounded nav, KOIX style
+══════════════════════════════════════════════════════════ */
+.koix-navbar {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  box-shadow: var(--sh-sm);
+  padding: 8px 10px 8px 22px;
+}
+.koix-navbar .nav-link {
+  font-family: var(--font-heading);
+  font-weight: 600; font-size: .87rem;
+  color: var(--text-2);
+  border-radius: 100px;
+}
+.koix-navbar .nav-link:hover, .koix-navbar .nav-link.active {
+  color: var(--mint-deep);
+  background: var(--mint-pale);
+}
+[data-theme="dark"] .koix-navbar .nav-link:hover,
+[data-theme="dark"] .koix-navbar .nav-link.active {
+  color: var(--mint);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION HEADERS
+══════════════════════════════════════════════════════════ */
+.koix-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 14px; border-radius: 100px;
+  background: var(--mint-pale); color: var(--mint-deep);
+  font-family: var(--font-heading);
+  font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+[data-theme="dark"] .koix-tag { color: var(--mint); }
+.koix-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 800;
+  color: var(--blue-dark);
+}
+[data-theme="dark"] .koix-section-title { color: #eef7f1; }
+
+/* ══════════════════════════════════════════════════════════
+   PRODUCT CHIP — small pill used inside icon-cards to list items
+══════════════════════════════════════════════════════════ */
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.chip {
+  font-size: .74rem; font-weight: 600;
+  color: var(--text-2); background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 8px;
+}
+[data-theme="dark"] .chip { color: var(--text-2); }
