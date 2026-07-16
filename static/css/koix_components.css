@@ -1,15 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
-   MUDDO AGRO — KOIX COMPONENT SYSTEM  v1
-   Load AFTER theme_vars.css and BEFORE page-specific CSS.
-   Drop into: static/css/koix_components.css
-   Then link it in base.html:
-   <link rel="stylesheet" href="{% static 'css/koix_components.css' %}">
+   MUDDO AGRO — COMPONENT SYSTEM  v2  "GRAYSCALE + GLOW"
+   Load AFTER theme_vars.css.
 ═══════════════════════════════════════════════════════════ */
-
-/* ── FONT IMPORT (add to <head> in base.html, replacing the
-   Playfair Display / DM Sans import) ─────────────────────────
-   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
-*/
 
 * { box-sizing: border-box; }
 body {
@@ -26,36 +18,32 @@ h1, h2, h3, h4, h5, .heading-font {
 }
 
 /* ══════════════════════════════════════════════════════════
-   KOIX HERO — dark navy panel, radial mint glow, brand-blue base
+   DARK HERO PANEL — grayscale, not black-with-color-glow-bg
 ══════════════════════════════════════════════════════════ */
 .koix-hero {
   position: relative;
-  background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(110,231,160,.16) 0%, transparent 60%),
-              linear-gradient(160deg, var(--blue-deep) 0%, #081018 55%, #05090c 100%);
+  background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(77,163,255,.10) 0%, transparent 60%),
+              linear-gradient(160deg, var(--bg-deep) 0%, #16191d 55%, var(--black) 100%);
   border-radius: 28px;
   overflow: hidden;
   padding: 64px 48px;
 }
-[data-theme="dark"] .koix-hero {
-  background: radial-gradient(ellipse 70% 60% at 75% 20%, rgba(110,231,160,.12) 0%, transparent 60%),
-              linear-gradient(160deg, #050a08 0%, #06100c 55%, #030503 100%);
-}
 .koix-hero h1, .koix-hero h2 { color: #fff; }
-.koix-hero p { color: rgba(255,255,255,.78); }
-.koix-hero .accent { color: var(--mint); }
+.koix-hero p { color: rgba(255,255,255,.72); }
+.koix-hero .accent { color: var(--accent-blue); }
 
 .koix-badge {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 6px 14px; border-radius: 100px;
-  background: rgba(110,231,160,.14);
-  border: 1px solid rgba(110,231,160,.3);
-  color: var(--mint);
+  background: rgba(77,163,255,.12);
+  border: 1px solid rgba(77,163,255,.3);
+  color: var(--accent-blue);
   font-size: .75rem; font-weight: 700; letter-spacing: .04em;
 }
 
 /* ══════════════════════════════════════════════════════════
-   ICON-BADGE CARDS — the core KOIX "benefit card" component
-   Use for: why-choose-us, product categories, feature grids
+   ICON-BADGE CARDS — grayscale card, gray icon tile with a
+   thin blue glow ring so it still reads clearly at a glance
 ══════════════════════════════════════════════════════════ */
 .icon-card-grid {
   display: grid;
@@ -71,76 +59,128 @@ h1, h2, h3, h4, h5, .heading-font {
 }
 .icon-card:hover {
   transform: translateY(-4px);
-  border-color: var(--mint-dark);
-  box-shadow: var(--sh-md);
+  border-color: var(--accent-blue);
+  box-shadow: var(--glow-blue);
 }
 .icon-card .icon-badge {
   width: 46px; height: 46px;
   border-radius: 14px;
-  background: var(--mint);
-  color: var(--mint-deep);
+  background: var(--gray-100);
+  color: var(--accent-blue);
+  box-shadow: 0 0 0 1px rgba(77,163,255,.18);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.05rem;
   margin-bottom: 16px;
 }
-.icon-card h3 {
-  font-size: 1.02rem;
-  font-weight: 800;
-  color: var(--text-1);
-  margin: 0 0 6px;
-}
-.icon-card p {
-  font-size: .87rem;
-  color: var(--text-3);
-  line-height: 1.65;
-  margin: 0;
-}
+[data-theme="dark"] .icon-card .icon-badge { background: #1a1e22; }
+.icon-card h3 { font-size: 1.02rem; font-weight: 800; color: var(--text-1); margin: 0 0 6px; }
+.icon-card p  { font-size: .87rem; color: var(--text-3); line-height: 1.65; margin: 0; }
 
-/* Dark variant — for use on .koix-hero or dark sections */
-.icon-card.on-dark {
-  background: rgba(255,255,255,.05);
-  border-color: rgba(255,255,255,.1);
-}
+/* Dark variant — for use on .koix-hero or other dark panels */
+.icon-card.on-dark { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.08); }
 .icon-card.on-dark h3 { color: #fff; }
-.icon-card.on-dark p  { color: rgba(255,255,255,.68); }
+.icon-card.on-dark p  { color: rgba(255,255,255,.62); }
 
 /* ══════════════════════════════════════════════════════════
-   BUTTONS — mint primary (KOIX), blue secondary
+   PRODUCT PHOTO CARDS — image on top, name below, grayscale
+   card with a blue glow on hover (used in "What We Distribute")
 ══════════════════════════════════════════════════════════ */
-.btn-mint, .btn-green, .btn-primary {
+.product-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.product-photo-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, border-color .25s;
+}
+.product-photo-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-blue);
+  box-shadow: var(--glow-blue);
+}
+.product-photo-card .ppc-img {
+  aspect-ratio: 1;
+  background: var(--gray-100);
+  overflow: hidden;
+}
+[data-theme="dark"] .product-photo-card .ppc-img { background: #1a1e22; }
+.product-photo-card .ppc-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .45s ease;
+}
+.product-photo-card:hover .ppc-img img { transform: scale(1.06); }
+.product-photo-card .ppc-name {
+  padding: 10px 12px 12px;
+  font-size: .8rem; font-weight: 700;
+  color: var(--text-1); text-align: center;
+  line-height: 1.35;
+}
+
+/* ══════════════════════════════════════════════════════════
+   BUTTONS — blue glow primary, red glow secondary/danger
+══════════════════════════════════════════════════════════ */
+.btn-mint, .btn-green, .btn-primary, .btn-blue-glow {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 12px 24px; border-radius: 12px;
-  background: var(--mint); color: var(--mint-deep) !important;
+  background: var(--gray-900); color: #fff !important;
   font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
-  border: none; cursor: pointer; text-decoration: none;
+  border: 1.5px solid var(--accent-blue);
+  box-shadow: var(--glow-blue);
+  cursor: pointer; text-decoration: none;
   transition: transform .2s, box-shadow .2s, background .2s;
 }
-.btn-mint:hover, .btn-green:hover, .btn-primary:hover {
-  background: var(--mint-glow);
-  transform: translateY(-2px);
-  box-shadow: var(--sh-mint);
+[data-theme="dark"] .btn-mint, [data-theme="dark"] .btn-green,
+[data-theme="dark"] .btn-primary, [data-theme="dark"] .btn-blue-glow {
+  background: var(--gray-100); color: var(--gray-900) !important;
 }
+.btn-mint:hover, .btn-green:hover, .btn-primary:hover, .btn-blue-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(77,163,255,.5), 0 8px 28px rgba(77,163,255,.5);
+}
+
 .btn-blue, .btn-secondary {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 12px 24px; border-radius: 12px;
-  background: var(--blue); color: #fff !important;
+  background: transparent; color: var(--accent-blue) !important;
   font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
-  border: none; cursor: pointer; text-decoration: none;
-  transition: transform .2s, box-shadow .2s;
+  border: 1.5px solid var(--accent-blue);
+  cursor: pointer; text-decoration: none;
+  transition: all .2s;
 }
-.btn-blue:hover, .btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--sh-blue); }
+.btn-blue:hover, .btn-secondary:hover { box-shadow: var(--glow-blue); }
+
+.btn-red-glow, .btn-danger-admin {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 12px;
+  background: transparent; color: var(--accent-red) !important;
+  font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
+  border: 1.5px solid var(--accent-red);
+  cursor: pointer; text-decoration: none;
+  transition: all .2s;
+}
+.btn-red-glow:hover, .btn-danger-admin:hover {
+  background: var(--accent-red); color: #fff !important;
+  box-shadow: var(--glow-red);
+}
 
 .btn-outline-koix {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 11px 22px; border-radius: 12px;
-  background: transparent; border: 1.5px solid rgba(255,255,255,.3);
+  background: transparent; border: 1.5px solid rgba(255,255,255,.25);
   color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: .9rem;
   text-decoration: none; transition: all .2s;
 }
-.btn-outline-koix:hover { border-color: var(--mint); color: var(--mint); }
+.btn-outline-koix:hover { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: var(--glow-blue); }
 
 /* ══════════════════════════════════════════════════════════
-   PILL NAVBAR — floating rounded nav, KOIX style
+   PILL NAV / TABS — gray by default, blue glow when active
 ══════════════════════════════════════════════════════════ */
 .koix-navbar {
   background: var(--bg-card);
@@ -150,18 +190,22 @@ h1, h2, h3, h4, h5, .heading-font {
   padding: 8px 10px 8px 22px;
 }
 .koix-navbar .nav-link {
-  font-family: var(--font-heading);
-  font-weight: 600; font-size: .87rem;
-  color: var(--text-2);
-  border-radius: 100px;
+  font-family: var(--font-heading); font-weight: 600; font-size: .87rem;
+  color: var(--text-2); border-radius: 100px; transition: all .2s;
 }
-.koix-navbar .nav-link:hover, .koix-navbar .nav-link.active {
-  color: var(--mint-deep);
-  background: var(--mint-pale);
+.koix-navbar .nav-link:hover { color: var(--accent-blue); }
+.koix-navbar .nav-link.active {
+  color: var(--accent-blue);
+  background: var(--gray-100);
+  box-shadow: 0 0 0 1px rgba(77,163,255,.3);
 }
-[data-theme="dark"] .koix-navbar .nav-link:hover,
-[data-theme="dark"] .koix-navbar .nav-link.active {
-  color: var(--mint);
+
+.cat-tab, .filter-tab {
+  transition: all .2s;
+}
+.cat-tab.active, .filter-tab.active {
+  box-shadow: var(--glow-blue) !important;
+  border-color: var(--accent-blue) !important;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -170,28 +214,28 @@ h1, h2, h3, h4, h5, .heading-font {
 .koix-tag {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 5px 14px; border-radius: 100px;
-  background: var(--mint-pale); color: var(--mint-deep);
+  background: var(--gray-100); color: var(--accent-blue);
   font-family: var(--font-heading);
   font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
   margin-bottom: 12px;
+  box-shadow: 0 0 0 1px rgba(77,163,255,.18);
 }
-[data-theme="dark"] .koix-tag { color: var(--mint); }
 .koix-section-title {
   font-family: var(--font-heading);
   font-size: clamp(1.6rem, 3vw, 2.3rem);
   font-weight: 800;
-  color: var(--blue-dark);
+  color: var(--text-1);
 }
-[data-theme="dark"] .koix-section-title { color: #eef7f1; }
 
 /* ══════════════════════════════════════════════════════════
-   PRODUCT CHIP — small pill used inside icon-cards to list items
+   CHIPS / BADGES — grayscale, blue or red glow only for
+   states that truly need attention (e.g. low stock = red glow)
 ══════════════════════════════════════════════════════════ */
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .chip {
   font-size: .74rem; font-weight: 600;
-  color: var(--text-2); background: var(--bg-alt);
+  color: var(--text-2); background: var(--gray-100);
   border: 1px solid var(--border);
   padding: 4px 10px; border-radius: 8px;
 }
-[data-theme="dark"] .chip { color: var(--text-2); }
+.chip.chip-alert { color: var(--accent-red); box-shadow: 0 0 0 1px rgba(255,90,95,.25); }

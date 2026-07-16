@@ -11,7 +11,7 @@
   <div class="koix-hero">
     <div style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:16px">
       <a href="{% url 'index' %}" style="color:rgba(255,255,255,.65);text-decoration:none">Home</a> /
-      <span style="color:var(--mint);font-weight:700">About</span>
+      <span style="color:var(--accent-blue);font-weight:700">About</span>
     </div>
     <div class="koix-badge" style="margin-bottom:16px"><i class="fas fa-certificate"></i>MAAIF-Registered · Est. 2020</div>
     <h1 style="font-size:clamp(2rem,4.5vw,3rem);margin:0 0 14px;line-height:1.12">
@@ -32,43 +32,51 @@
       <h2 class="koix-section-title" style="margin:6px 0 16px">MACL — Muddo Agro Chemicals LTD</h2>
       <p style="color:var(--text-2);line-height:1.8;margin-bottom:14px">Based in Kampala's Container Village Nakivubo, Equity Bank Basement V013, MACL is a MAAIF-registered distributor of pesticides, herbicides, fungicides, fertilizers and spraying equipment serving all regions of Uganda.</p>
       <p style="color:var(--text-2);line-height:1.8;margin-bottom:14px">We partner with manufacturers in India, China and Europe to bring authentic, proven agrochemical solutions at competitive prices — zero counterfeit products, ever.</p>
-      <p style="color:var(--text-2);line-height:1.8"><i class="fas fa-phone" style="color:var(--mint-dark);margin-right:6px"></i><strong>Tel:</strong> 0772-507582 / 0702-507582 &nbsp;|&nbsp; 0772 971620 / 0701-971620<br><i class="fas fa-envelope" style="color:var(--mint-dark);margin-right:6px"></i><strong>Email:</strong> <a href="mailto:kulanju_w@yahoo.com" style="color:var(--mint-dark)">kulanju_w@yahoo.com</a></p>
+      <p style="color:var(--text-2);line-height:1.8"><i class="fas fa-phone" style="color:var(--accent-blue);margin-right:6px"></i><strong>Tel:</strong> 0772-507582 / 0702-507582 &nbsp;|&nbsp; 0772 971620 / 0701-971620<br><i class="fas fa-envelope" style="color:var(--accent-blue);margin-right:6px"></i><strong>Email:</strong> <a href="mailto:kulanju_w@yahoo.com" style="color:var(--accent-blue)">kulanju_w@yahoo.com</a></p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px">
         {% for stat,label in stats_list %}
-        <div style="text-align:center;padding:16px;background:var(--mint-pale);border-radius:16px">
-          <div style="font-family:var(--font-heading);font-size:1.9rem;font-weight:800;color:var(--blue-dark)">{{ stat }}</div>
+        <div style="text-align:center;padding:16px;background:var(--gray-100);border-radius:16px">
+          <div style="font-family:var(--font-heading);font-size:1.9rem;font-weight:800;color:var(--text-1)">{{ stat }}</div>
           <div style="font-size:.76rem;font-weight:600;color:var(--text-muted);margin-top:4px">{{ label }}</div>
         </div>{% endfor %}
       </div>
     </div>
     <div style="border-radius:24px;overflow:hidden;height:420px;box-shadow:var(--sh-lg)">
-      <img src="{% static 'images/products_all.png' %}" alt="MACL Products" style="width:100%;height:100%;object-fit:cover">
+      <img src="{% static 'images/products_all.png' %}" alt="MACL Products" style="width:100%;height:100%;object-fit:cover;filter:grayscale(.15)">
     </div>
   </div>
 </div></section>
 
-<!-- ═══════════════ WHAT WE DISTRIBUTE — rebuilt, KOIX icon cards ═══════════════ -->
+<!-- ═══════════════ WHAT WE DISTRIBUTE — every product, real photo + name ═══════════════ -->
 <section class="section section-alt"><div class="container">
   <div class="section-header">
     <div class="koix-tag" style="margin-left:auto;margin-right:auto"><i class="fas fa-flask"></i>Our Products</div>
     <h2 class="koix-section-title">What We Distribute</h2>
     <p style="color:var(--text-muted);max-width:55ch;margin:10px auto 0;line-height:1.75">
-      Four categories, one standard: every product on this list is MAAIF-registered and moves
-      through our shelves every week — not a catalogue of things we merely stock.
+      Every product below is MAAIF-registered and moves through our shelves every week —
+      not a catalogue of things we merely stock.
     </p>
   </div>
-  <div class="icon-card-grid">
-    {% for g in product_groups %}
-    <div class="icon-card">
-      <div class="icon-badge"><i class="fas fa-{{ g.icon }}"></i></div>
-      <h3>{{ g.title }}</h3>
-      <p>{{ g.blurb }}</p>
-      <div class="chip-row">
-        {% for item in g.items %}<span class="chip">{{ item }}</span>{% endfor %}
+
+  {% for g in product_groups %}
+  <div style="margin-bottom:44px">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">
+      <div class="icon-card" style="padding:12px;margin:0;flex-shrink:0;border-radius:14px"><div class="icon-badge" style="margin:0"><i class="fas fa-{{ g.icon }}"></i></div></div>
+      <div>
+        <h3 style="font-family:var(--font-heading);font-size:1.15rem;font-weight:800;color:var(--text-1);margin:0">{{ g.title }}</h3>
+        <p style="font-size:.86rem;color:var(--text-muted);margin:2px 0 0;max-width:60ch">{{ g.blurb }}</p>
       </div>
     </div>
-    {% endfor %}
+    <div class="product-photo-grid">
+      {% for p in g.products %}
+      <a href="{{ p.get_absolute_url }}" class="product-photo-card">
+        <div class="ppc-img"><img src="{{ p.display_image }}" alt="{{ p.name }}" loading="lazy" onerror="this.src='{% static 'images/products_all.png' %}'"></div>
+        <div class="ppc-name">{{ p.name }}</div>
+      </a>
+      {% endfor %}
+    </div>
   </div>
+  {% endfor %}
 </div></section>
 <!-- ═══════════════ END WHAT WE DISTRIBUTE ═══════════════ -->
 
@@ -78,7 +86,7 @@
     {% for q,a in faqs %}
     <div style="background:var(--bg-card);border:1.5px solid var(--border-color);border-radius:16px;overflow:hidden">
       <button onclick="toggleFaq(this)" style="width:100%;padding:17px 20px;text-align:left;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;font-family:var(--font-heading);font-size:.96rem;font-weight:700;color:var(--text-primary)">
-        <span>{{ q }}</span><i class="fas fa-chevron-down" style="flex-shrink:0;color:var(--mint-dark);transition:transform .3s;font-size:.8rem"></i>
+        <span>{{ q }}</span><i class="fas fa-chevron-down" style="flex-shrink:0;color:var(--accent-blue);transition:transform .3s;font-size:.8rem"></i>
       </button>
       <div style="max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)">
         <div style="padding:0 20px 17px;font-size:.94rem;color:var(--text-secondary);line-height:1.78;border-top:1px solid var(--border-color)">{{ a }}</div>
