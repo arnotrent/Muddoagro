@@ -1,0 +1,44 @@
+### Replace the contact_items list inside apps/core/views.py's contact() view ###
+
+Old (reads like a spec sheet — label, then raw content):
+
+    contact_items = [
+        ('map-marker-alt','Our Location','Container Village Nakivubo, Equity Bank Basement V013, P.O Box 25240, Kampala',''),
+        ('phone','Phone / WhatsApp','<a href="tel:+256772507582"...>+256 772 507582</a> / ...',''),
+        ('envelope','Email','<a href="mailto:kulanju_w@yahoo.com"...>kulanju_w@yahoo.com</a>',''),
+        ('clock','Business Hours','Monday – Saturday: 8:00am – 6:00pm',''),
+        ('facebook','Facebook','<a href="https://facebook.com/...">MUDDO AGRO Chemicals LTD</a>',''),
+    ]
+
+New — same data, but the label reads like a person describing the item
+rather than a database field name:
+
+    contact_items = [
+        ('map-marker-alt','Visit us in Kampala','Container Village Nakivubo, Equity Bank Basement V013, P.O Box 25240',''),
+        ('phone','Call or WhatsApp us','<a href="tel:+256772507582" style="color:var(--mint-dark,var(--orange))">+256 772 507582</a> / <a href="tel:+256702507582" style="color:var(--mint-dark,var(--orange))">0702-507582</a><br><a href="tel:+256772971620" style="color:var(--mint-dark,var(--orange))">0772 971620</a> / <a href="tel:+256701971620" style="color:var(--mint-dark,var(--orange))">0701-971620</a>',''),
+        ('envelope','Email the team','<a href="mailto:kulanju_w@yahoo.com" style="color:var(--mint-dark,var(--orange))">kulanju_w@yahoo.com</a>',''),
+        ('clock','When we\'re open','Monday to Saturday, 8am until 6pm',''),
+        ('facebook','Follow along on Facebook','<a href="https://facebook.com/p/MUDDO-AGRO-Chemicals-LTD-100063836929481/" target="_blank" style="color:var(--mint-dark,var(--orange))">MUDDO AGRO Chemicals LTD</a>',''),
+    ]
+
+
+### Also update the intro copy in templates/contact.html ###
+
+Old:
+    <h1>Contact Us</h1>
+    <p>Product enquiries, pricing, wholesale orders, or expert crop advice.</p>
+    ...
+    <h2>We're Here to Help</h2>
+
+New (reads like a person wrote it, not a category list):
+    <h1>Let's Talk</h1>
+    <p>Got a pest problem, need a price, or just want to ask before you buy — we
+       usually reply the same day.</p>
+    ...
+    <h2>A Few Ways to Reach Us</h2>
+
+And the form panel intro:
+Old: "We'll respond within 1 business day. You'll receive a reference number to track your enquiry."
+New: "We read every message ourselves — no call centre. Expect a reply within a
+      business day, and you'll get a reference number so you can check on it
+      anytime."

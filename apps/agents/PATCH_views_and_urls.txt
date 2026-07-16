@@ -1,0 +1,18 @@
+### Add to apps/agents/views.py ###
+# 1. Add JsonResponse to the existing django.http import line, i.e. change:
+#      from django.http import FileResponse
+#    to:
+#      from django.http import FileResponse, JsonResponse
+#
+# 2. Add this view anywhere in the file:
+
+def api_agents_status(request):
+    """Returns {"online": {"<agent_id>": true/false, ...}} for chat presence dots."""
+    if not request.user.is_authenticated:
+        return JsonResponse({'online': {}})
+    return JsonResponse({'online': {str(a.id): a.is_online for a in Agent.objects.all()}})
+
+
+### Add to apps/agents/urls.py — inside urlpatterns list ###
+#
+#     path('api/agents/status/', views.api_agents_status, name='api_agents_status'),
