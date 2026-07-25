@@ -129,11 +129,13 @@
   document.getElementById('nlForm')?.addEventListener('submit', async function (e) {
     e.preventDefault();
     const btn = this.querySelector('button'), email = this.querySelector('[name=email]').value;
-    const orig = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    const orig = btn.innerHTML; btn.innerHTML = '<svg class="icon icon-spin" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>';
     try {
       const r = await fetch('/subscribe/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') }, body: JSON.stringify({ email }) });
       const d = await r.json();
-      btn.innerHTML = d.ok ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>';
+      const checkSvg = '<svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      const timesSvg = '<svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      btn.innerHTML = d.ok ? checkSvg : timesSvg;
       setTimeout(() => { btn.innerHTML = orig; }, 3000);
     } catch { btn.innerHTML = orig; }
   });

@@ -1,4 +1,4 @@
-{% load static %}<!DOCTYPE html>
+{% load static icons %}<!DOCTYPE html>
 <html lang="en" data-theme="light"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Staff Login — Muddo Agro</title>
@@ -6,7 +6,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/theme_vars.css' %}">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>(function(){var t=localStorage.getItem('muddo-theme')||'light';document.documentElement.setAttribute('data-theme',t)})();</script>
 <style>
 body{margin:0;min-height:100vh}
@@ -43,16 +42,16 @@ body{margin:0;min-height:100vh}
   <div class="slide-side">
     <div class="slide-logo"><img src="{% static 'images/logo_full.png' %}" alt="MACL"><span>MUDDO AGRO</span></div>
     <div class="slide active" style="background-image:url('{% static 'images/hero_pesticides.jpg' %}')">
-      <div class="slide-content"><div class="slide-tag"><i class="fas fa-bug"></i>Pesticides</div><h2 class="slide-title">Protection that actually holds up in the field.</h2><p class="slide-desc">Broad-spectrum insecticides trusted by farmers across all four regions of Uganda.</p></div>
+      <div class="slide-content"><div class="slide-tag">{% icon "bug" %}Pesticides</div><h2 class="slide-title">Protection that actually holds up in the field.</h2><p class="slide-desc">Broad-spectrum insecticides trusted by farmers across all four regions of Uganda.</p></div>
     </div>
     <div class="slide" style="background-image:url('{% static 'images/hero_herbicides.jpg' %}')">
-      <div class="slide-content"><div class="slide-tag"><i class="fas fa-seedling"></i>Herbicides</div><h2 class="slide-title">Clear the weeds, keep the crop.</h2><p class="slide-desc">Selective and non-selective control for even the most stubborn Couch and Kikuyu grass.</p></div>
+      <div class="slide-content"><div class="slide-tag">{% icon "seedling" %}Herbicides</div><h2 class="slide-title">Clear the weeds, keep the crop.</h2><p class="slide-desc">Selective and non-selective control for even the most stubborn Couch and Kikuyu grass.</p></div>
     </div>
     <div class="slide" style="background-image:url('{% static 'images/hero_fungicides.jpg' %}')">
-      <div class="slide-content"><div class="slide-tag"><i class="fas fa-microscope"></i>Fungicides</div><h2 class="slide-title">Built for Uganda's humidity.</h2><p class="slide-desc">Protective and curative fungicides that hold up against blight and mildew season after season.</p></div>
+      <div class="slide-content"><div class="slide-tag">{% icon "microscope" %}Fungicides</div><h2 class="slide-title">Built for Uganda's humidity.</h2><p class="slide-desc">Protective and curative fungicides that hold up against blight and mildew season after season.</p></div>
     </div>
     <div class="slide" style="background-image:url('{% static 'images/hero_fertilizers.jpg' %}')">
-      <div class="slide-content"><div class="slide-tag"><i class="fas fa-boxes"></i>Fertilizers &amp; Equipment</div><h2 class="slide-title">Everything else the farm needs.</h2><p class="slide-desc">From basal fertilizer to a dependable knapsack sprayer — genuine, in stock, MAAIF-registered.</p></div>
+      <div class="slide-content"><div class="slide-tag">{% icon "boxes" %}Fertilizers &amp; Equipment</div><h2 class="slide-title">Everything else the farm needs.</h2><p class="slide-desc">From basal fertilizer to a dependable knapsack sprayer — genuine, in stock, MAAIF-registered.</p></div>
     </div>
     <div class="slide-dots"><span class="slide-dot active"></span><span class="slide-dot"></span><span class="slide-dot"></span><span class="slide-dot"></span></div>
   </div>
@@ -63,22 +62,22 @@ body{margin:0;min-height:100vh}
       <p class="sub">Authorised personnel only — administrators and field agents.</p>
       {% if messages %}{% for m in messages %}
       <div style="margin-bottom:16px;padding:12px 14px;border-radius:10px;background:{% if 'error' in m.tags %}rgba(239,68,68,.08){% else %}var(--bg-alt){% endif %};border:1px solid {% if 'error' in m.tags %}var(--accent-red){% else %}var(--accent-blue){% endif %};color:{% if 'error' in m.tags %}var(--accent-red){% else %}var(--text-1){% endif %};font-size:.88rem;display:flex;align-items:center;gap:8px">
-        <i class="fas {% if 'error' in m.tags %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>{{ m }}
+        {% if 'error' in m.tags %}{% icon "exclamation-circle" %}{% else %}{% icon "check-circle" %}{% endif %}{{ m }}
       </div>{% endfor %}{% endif %}
       <form method="POST">{% csrf_token %}
         <p style="font-size:.8rem;font-weight:700;color:var(--text-3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Select Role</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px">
           <label><input type="radio" name="role" value="admin" id="r-admin" style="display:none">
-            <div class="role-card" id="rc-admin" onclick="setRole('admin')"><i class="fas fa-shield-alt" style="font-size:1.4rem;color:var(--accent-blue);display:block;margin-bottom:7px"></i><div style="font-weight:700;font-size:.9rem">Administrator</div><div style="font-size:.72rem;color:var(--text-3)">Full access</div></div></label>
+            <div class="role-card" id="rc-admin" onclick="setRole('admin')">{% icon "shield-alt" style="font-size:1.4rem;color:var(--accent-blue);display:block;margin-bottom:7px" %}<div style="font-weight:700;font-size:.9rem">Administrator</div><div style="font-size:.72rem;color:var(--text-3)">Full access</div></div></label>
           <label><input type="radio" name="role" value="agent" id="r-agent" checked style="display:none">
-            <div class="role-card active" id="rc-agent" onclick="setRole('agent')"><i class="fas fa-user-tie" style="font-size:1.4rem;color:var(--accent-blue);display:block;margin-bottom:7px"></i><div style="font-weight:700;font-size:.9rem">Field Agent</div><div style="font-size:.72rem;color:var(--text-3)">Agent portal</div></div></label>
+            <div class="role-card active" id="rc-agent" onclick="setRole('agent')">{% icon "user-tie" style="font-size:1.4rem;color:var(--accent-blue);display:block;margin-bottom:7px" %}<div style="font-weight:700;font-size:.9rem">Field Agent</div><div style="font-size:.72rem;color:var(--text-3)">Agent portal</div></div></label>
         </div>
-        <div style="margin-bottom:16px"><label>Username</label><div class="inp-wrap"><i class="fas fa-user"></i><input type="text" name="username" placeholder="Enter username" required autofocus></div></div>
-        <div style="margin-bottom:22px"><label>Password</label><div class="inp-wrap"><i class="fas fa-lock"></i><input type="password" id="pw" name="password" placeholder="Enter password" required><button type="button" onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-3)"><i class="fas fa-eye" id="pwi"></i></button></div></div>
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+        <div style="margin-bottom:16px"><label>Username</label><div class="inp-wrap">{% icon "user" %}<input type="text" name="username" placeholder="Enter username" required autofocus></div></div>
+        <div style="margin-bottom:22px"><label>Password</label><div class="inp-wrap">{% icon "lock" %}<input type="password" id="pw" name="password" placeholder="Enter password" required><button type="button" onclick="togglePw()" id="pwToggleBtn" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-3)"><span class="pw-icon-slot pw-icon-eye">{% icon "eye" %}</span><span class="pw-icon-slot pw-icon-eye-slash">{% icon "eye-slash" %}</span></button></div></div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center">{% icon "sign-in-alt" %} Sign In</button>
       </form>
       <div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-        <a href="{% url 'index' %}" style="font-size:.84rem;color:var(--text-3)"><i class="fas fa-arrow-left"></i> Back to Website</a>
+        <a href="{% url 'index' %}" style="font-size:.84rem;color:var(--text-3)">{% icon "arrow-left" %} Back to Website</a>
       </div>
     </div>
   </div>
@@ -86,7 +85,7 @@ body{margin:0;min-height:100vh}
 <script src="{% static 'js/theme.js' %}"></script>
 <script>
 function setRole(r){document.getElementById('r-admin').checked=r==='admin';document.getElementById('r-agent').checked=r==='agent';document.getElementById('rc-admin').classList.toggle('active',r==='admin');document.getElementById('rc-agent').classList.toggle('active',r==='agent')}
-function togglePw(){const p=document.getElementById('pw'),i=document.getElementById('pwi');p.type=p.type==='password'?'text':'password';i.className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash'}
+function togglePw(){const p=document.getElementById('pw'),btn=document.getElementById('pwToggleBtn');p.type=p.type==='password'?'text':'password';btn.classList.toggle('pw-visible',p.type==='text')}
 let slideIdx=0;const slides=document.querySelectorAll('.slide');const dots=document.querySelectorAll('.slide-dot');
 setInterval(()=>{slides[slideIdx].classList.remove('active');dots[slideIdx].classList.remove('active');slideIdx=(slideIdx+1)%slides.length;slides[slideIdx].classList.add('active');dots[slideIdx].classList.add('active')},4500);
 </script>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load static %}
+{% extends "base.html" %}{% load static icons %}
 {% block title %}Find a Store — Muddo Agro{% endblock %}
 {% block nav_stores %}active{% endblock %}
 {% block extra_head %}
@@ -18,7 +18,7 @@
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:28px">
     <button onclick="filterRegion('',this)" class="cat-tab active" id="btn-all">All Regions</button>
     {% for region in regions %}<button onclick="filterRegion('{{ region }}',this)" class="cat-tab" id="btn-{{ region }}">{{ region }}</button>{% endfor %}
-    <div style="margin-left:auto;position:relative"><i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:.82rem"></i><input type="text" id="distSearch" placeholder="Search by name or district…" oninput="searchDist()" style="padding-left:34px;width:240px"></div>
+    <div style="margin-left:auto;position:relative">{% icon "search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:.82rem" %}<input type="text" id="distSearch" placeholder="Search by name or district…" oninput="searchDist()" style="padding-left:34px;width:240px"></div>
     <span id="distCount" style="font-size:.82rem;font-weight:700;color:var(--text-3);padding:8px 12px;background:var(--bg-alt);border-radius:8px">{{ distributors|length }} outlets</span>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px" id="distGrid">
@@ -29,11 +29,11 @@
           <span class="badge" style="background:var(--bg-alt);color:var(--accent-blue)">{{ d.region }}</span>
           <span style="font-size:.72rem;color:var(--text-3);margin-left:6px">{{ d.district }}</span>
         </div>
-        <div style="width:40px;height:40px;border-radius:10px;background:var(--bg-alt);color:var(--accent-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-store"></i></div>
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--bg-alt);color:var(--accent-blue);display:flex;align-items:center;justify-content:center;flex-shrink:0">{% icon "store" %}</div>
       </div>
-      {% if d.address %}<p style="font-size:.85rem;color:var(--text-3);margin:0 0 7px"><i class="fas fa-map-marker-alt" style="color:var(--accent-blue);margin-right:6px"></i>{{ d.address }}</p>{% endif %}
-      {% if d.phone %}<p style="font-size:.88rem;margin:0 0 7px;font-weight:600"><i class="fas fa-phone" style="color:var(--accent-blue);margin-right:6px"></i><a href="tel:{{ d.phone }}" style="color:var(--accent-blue)" onclick="event.stopPropagation()">{{ d.phone }}</a></p>{% endif %}
-      {% if d.lat and d.lng %}<a href="https://www.google.com/maps?q={{ d.lat }},{{ d.lng }}" target="_blank" onclick="event.stopPropagation()" class="btn-outline btn-sm" style="display:inline-flex;margin-top:6px"><i class="fas fa-directions"></i>Get Directions</a>{% endif %}
+      {% if d.address %}<p style="font-size:.85rem;color:var(--text-3);margin:0 0 7px">{% icon "map-marker-alt" style="color:var(--accent-blue);margin-right:6px" %}{{ d.address }}</p>{% endif %}
+      {% if d.phone %}<p style="font-size:.88rem;margin:0 0 7px;font-weight:600">{% icon "phone" style="color:var(--accent-blue);margin-right:6px" %}<a href="tel:{{ d.phone }}" style="color:var(--accent-blue)" onclick="event.stopPropagation()">{{ d.phone }}</a></p>{% endif %}
+      {% if d.lat and d.lng %}<a href="https://www.google.com/maps?q={{ d.lat }},{{ d.lng }}" target="_blank" onclick="event.stopPropagation()" class="btn-outline btn-sm" style="display:inline-flex;margin-top:6px">{% icon "directions" %}Get Directions</a>{% endif %}
     </div>{% endfor %}
   </div>
   <div id="noDistResults" style="display:none;text-align:center;padding:48px 0;color:var(--text-3)">No outlets match your search. <a href="{% url 'contact' %}" style="color:var(--accent-blue)">Contact us directly</a>.</div>

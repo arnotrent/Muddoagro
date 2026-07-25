@@ -1,4 +1,4 @@
-{% load static %}
+{% load static icons %}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="{% static 'css/theme_vars.css' %}">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/admin.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>(function(){var t=localStorage.getItem('muddo-theme')||'light';document.documentElement.setAttribute('data-theme',t)})();</script>
 <style>
 body{margin:0;height:100vh;display:flex;flex-direction:column}
@@ -21,14 +20,14 @@ body{margin:0;height:100vh;display:flex;flex-direction:column}
 {% csrf_token %}{# ensures the csrftoken cookie is set — chat.js reads it for send/mark-read requests #}
 <div class="chat-topbar">
   <div style="display:flex;align-items:center;gap:10px">
-    <a href="{% url 'agent_dashboard' %}" style="color:var(--text-3);font-size:.9rem;padding:6px;border-radius:8px"><i class="fas fa-arrow-left"></i></a>
+    <a href="{% url 'agent_dashboard' %}" style="color:var(--text-3);font-size:.9rem;padding:6px;border-radius:8px">{% icon "arrow-left" %}</a>
     <img src="{% static 'images/logo_full.png' %}" alt="MACL" style="height:32px;border-radius:6px;background:var(--bg-alt);padding:2px">
     <span style="font-weight:700;font-size:.92rem">Muddo Agro — Agent Portal</span>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <span style="font-size:.8rem;color:var(--text-3)">{{ agent.name }}</span>
-    <button class="theme-btn theme-toggle-nav"><i class="fas fa-moon" data-theme-icon></i></button>
-    <a href="{% url 'logout' %}" style="font-size:.8rem;color:var(--text-3);padding:6px 10px;border-radius:8px;border:1px solid var(--border)"><i class="fas fa-sign-out-alt"></i></a>
+    <button class="theme-btn theme-toggle-nav"><span class="theme-icon-slot theme-icon-moon">{% icon "moon" %}</span><span class="theme-icon-slot theme-icon-sun">{% icon "sun" %}</span></button>
+    <a href="{% url 'logout' %}" style="font-size:.8rem;color:var(--text-3);padding:6px 10px;border-radius:8px;border:1px solid var(--border)">{% icon "sign-out-alt" %}</a>
   </div>
 </div>
 <div class="chat-wrap">
@@ -38,14 +37,14 @@ body{margin:0;height:100vh;display:flex;flex-direction:column}
       <div style="font-weight:700;font-size:.96rem">Muddo Agro Admin</div>
       <div style="font-size:.74rem;color:var(--text-3);display:flex;align-items:center;gap:5px"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent-green);display:inline-block"></span>Head Office · Kampala</div>
     </div>
-    <div style="margin-left:auto;font-size:.78rem;color:var(--text-3)"><i class="fas fa-phone" style="color:var(--accent-blue);margin-right:5px"></i><a href="tel:+256772507582" style="color:var(--accent-blue)">+256 772 507582</a></div>
+    <div style="margin-left:auto;font-size:.78rem;color:var(--text-3)">{% icon "phone" style="color:var(--accent-blue);margin-right:5px" %}<a href="tel:+256772507582" style="color:var(--accent-blue)">+256 772 507582</a></div>
   </div>
   <div class="chat-msgs-wrap" id="chatMessages">
-    <div style="text-align:center;padding:40px;color:var(--text-3)"><i class="fas fa-comments" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:.3"></i><p style="font-size:.86rem">Loading messages…</p></div>
+    <div style="text-align:center;padding:40px;color:var(--text-3)">{% icon "comments" style="font-size:2.5rem;display:block;margin-bottom:12px;opacity:.3" %}<p style="font-size:.86rem">Loading messages…</p></div>
   </div>
   <div class="chat-input-row">
     <textarea id="chatInput" placeholder="Type a message… (Enter to send, Shift+Enter for new line)"></textarea>
-    <button id="chatSendBtn" class="btn-admin btn-primary-admin"><i class="fas fa-paper-plane"></i>Send</button>
+    <button id="chatSendBtn" class="btn-admin btn-primary-admin">{% icon "paper-plane" %}</button>
   </div>
 </div>
 <script>window._adminId={{ admin_id }};</script>

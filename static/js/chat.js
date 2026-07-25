@@ -33,6 +33,13 @@ class MuddoChat {
     this.myId         = parseInt(document.body.dataset.userId || '0', 10);
     this.myRole       = document.body.dataset.userRole || 'agent';
 
+    // Grouping state — lets consecutive messages from the same sender
+    // on the same day collapse together with one avatar, WhatsApp-style,
+    // without literally cloning WhatsApp's look.
+    this.lastDateKey  = null;
+    this.lastSenderKey = null;
+    this.lastRow      = null;
+
     if (this.sendBtn)  this.sendBtn.addEventListener('click', () => this.sendMessage());
     if (this.inputBox) {
       this.inputBox.addEventListener('keydown', e => {
@@ -80,6 +87,9 @@ class MuddoChat {
     if (this.chatEmpty)    this.chatEmpty.style.display  = 'none';
 
     this.lastMsgId = 0;
+    this.lastDateKey = null;
+    this.lastSenderKey = null;
+    this.lastRow = null;
     this.container.innerHTML = '';
     this.loadMessages(true);
 
@@ -116,21 +126,55 @@ class MuddoChat {
     } catch(e) { console.warn('Chat load error:', e); }
   }
 
+  dateKeyFor(dateObj) {
+    return dateObj.toDateString();
+  }
+
+  dateLabelFor(dateObj) {
+    const today = new Date(); const yest = new Date(); yest.setDate(today.getDate() - 1);
+    if (this.dateKeyFor(dateObj) === this.dateKeyFor(today)) return 'Today';
+    if (this.dateKeyFor(dateObj) === this.dateKeyFor(yest)) return 'Yesterday';
+    return dateObj.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
   appendMessage(m) {
     const isSent = (m.sender_role === this.myRole && m.sender_id === this.myId);
     const initial = isSent ? this.myInitial : (this.currentWith?.name?.charAt(0) || '?');
-    const time = new Date(m.created_at).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+    const msgDate = new Date(m.created_at);
+    const dateKey = this.dateKeyFor(msgDate);
+    const time = msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // New day → drop in a date pill and force a fresh group
+    if (dateKey !== this.lastDateKey) {
+      const sep = document.createElement('div');
+      sep.className = 'chat-date-sep';
+      sep.textContent = this.dateLabelFor(msgDate);
+      this.container.appendChild(sep);
+      this.lastDateKey = dateKey;
+      this.lastSenderKey = null;
+    }
+
+    const senderKey = `${m.sender_role}:${m.sender_id}`;
+    const grouped = senderKey === this.lastSenderKey;
+
+    // Collapse the previous row's avatar when this message continues its group
+    if (grouped && this.lastRow) {
+      const prevSlot = this.lastRow.querySelector('.msg-avatar-slot');
+      if (prevSlot) prevSlot.style.visibility = 'hidden';
+      this.lastRow.style.marginBottom = '2px';
+    }
 
     const wrapper = document.createElement('div');
-    wrapper.className = `chat-msg ${isSent ? 'sent' : 'received'}`;
+    wrapper.className = `msg-row ${isSent ? 'sent' : 'received'}`;
+    if (grouped) wrapper.style.marginTop = '2px';
     wrapper.innerHTML = `
-      ${!isSent ? `<div class="msg-avatar">${initial}</div>` : ''}
-      <div>
-        <div class="msg-bubble">${this.escapeHtml(m.content)}<span class="msg-time">${time}${isSent ? ' <i class=\"fas fa-check-double\" style=\"font-size:.68rem;opacity:.8\"></i>' : ''}</span></div>
-      </div>
-      ${isSent ? `<div class="msg-avatar sent-avatar">${initial}</div>` : ''}
+      <div class="msg-avatar-slot"><div class="msg-avatar ${isSent ? 'sent-avatar' : ''}">${initial}</div></div>
+      <div class="msg-bubble">${this.escapeHtml(m.content)}<span class="msg-time">${time}${isSent ? ' <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.8;vertical-align:-1px"><polyline points="1 13 5 17 11 9"/><polyline points="7 13 11 17 21 5"/></svg>' : ''}</span></div>
     `;
     this.container.appendChild(wrapper);
+
+    this.lastSenderKey = senderKey;
+    this.lastRow = wrapper;
   }
 
   async sendMessage() {

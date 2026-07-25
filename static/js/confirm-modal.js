@@ -28,7 +28,7 @@
     el.innerHTML = `
       <div style="background:var(--bg-card,#fff);border-radius:18px;padding:28px;max-width:420px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.3);border:1.5px solid var(--border-color,#e2e6ec);font-family:var(--font-body,'DM Sans',sans-serif)">
         <div style="width:44px;height:44px;border-radius:12px;background:#fce8e2;color:#c62828;display:flex;align-items:center;justify-content:center;font-size:1.15rem;margin-bottom:14px">
-          <i class="fas fa-trash-alt"></i>
+          <svg class="icon" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
         </div>
         <h3 id="confirmModalTitle" style="font-family:var(--font-heading,'DM Sans',sans-serif);font-size:1.05rem;font-weight:800;color:var(--text-primary,#10151a);margin:0 0 8px">Are you sure?</h3>
         <p id="confirmModalBody" style="font-size:.88rem;color:var(--text-muted,#667079);line-height:1.6;margin:0 0 22px"></p>

@@ -1,8 +1,8 @@
-{% extends "admin/base_admin.html" %}
-{% block title %}Inventory{% endblock %}{% block page_icon %}boxes{% endblock %}{% block page_heading %}Inventory Management{% endblock %}
+{% extends "admin/base_admin.html" %}{% load icons %}
+{% block title %}Inventory{% endblock %}{% block page_icon %}{% icon "boxes" %}{% endblock %}{% block page_heading %}Inventory Management{% endblock %}
 {% block content %}
 <div class="admin-card">
-  <div class="admin-card-header"><div class="admin-card-title"><i class="fas fa-boxes"></i>Stock Levels</div>
+  <div class="admin-card-header"><div class="admin-card-title">{% icon "boxes" %}Stock Levels</div>
     <input type="text" id="is" placeholder="Search…" oninput="document.querySelectorAll('#it tbody tr[data-search]').forEach(r=>r.style.display=r.dataset.search.includes(this.value.toLowerCase())?'':'')" style="width:200px">
   </div>
   <div class="tbl-wrap"><table class="data-table" id="it"><thead><tr><th>Product</th><th>Category</th><th>Stock</th><th>Unit</th><th>Reorder</th><th>Status</th><th>Update</th></tr></thead>
@@ -16,14 +16,14 @@
     <td><div style="display:flex;gap:6px;align-items:center">
       <input type="number" id="qty_{{ i.product.id }}" placeholder="Qty" min="0" style="width:70px;padding:6px 8px">
       <select id="act_{{ i.product.id }}" style="padding:6px 8px"><option value="add">Add</option><option value="remove">Remove</option><option value="set">Set To</option></select>
-      <button onclick="updateStock({{ i.product.id }})" class="btn-admin btn-primary-admin" style="padding:6px 12px;font-size:.78rem"><i class="fas fa-check"></i></button>
+      <button onclick="updateStock({{ i.product.id }})" class="btn-admin btn-primary-admin" style="padding:6px 12px;font-size:.78rem">{% icon "check" %}</button>
     </div></td>
   </tr>{% empty %}<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:32px">No inventory records. Add products first.</td></tr>{% endfor %}</tbody>
   </table></div>
 </div>
 {% if log %}
 <div class="admin-card">
-  <div class="admin-card-header"><div class="admin-card-title"><i class="fas fa-history"></i>Recent Activity</div></div>
+  <div class="admin-card-header"><div class="admin-card-title">{% icon "history" %}Recent Activity</div></div>
   <div class="tbl-wrap"><table class="data-table"><thead><tr><th>Product</th><th>Change</th><th>Reason</th><th>By</th><th>Date</th></tr></thead>
   <tbody>{% for l in log %}<tr><td>{{ l.product.name }}</td><td><strong style="color:{% if l.change_qty >= 0 %}#22C55E{% else %}#EF4444{% endif %}">{% if l.change_qty >= 0 %}+{% endif %}{{ l.change_qty }}</strong></td><td style="color:var(--text-3);font-size:.84rem">{{ l.reason|default:"—" }}</td><td style="color:var(--text-3);font-size:.84rem">{{ l.changed_by|default:"system" }}</td><td style="color:var(--text-3);font-size:.78rem;white-space:nowrap">{{ l.created_at|date:"d M Y H:i" }}</td></tr>{% endfor %}</tbody>
   </table></div>

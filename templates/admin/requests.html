@@ -1,5 +1,5 @@
-{% extends "admin/base_admin.html" %}
-{% block title %}Enquiries{% endblock %}{% block page_icon %}envelope{% endblock %}{% block page_heading %}Customer Enquiries{% endblock %}
+{% extends "admin/base_admin.html" %}{% load icons %}
+{% block title %}Enquiries{% endblock %}{% block page_icon %}{% icon "envelope" %}{% endblock %}{% block page_heading %}Customer Enquiries{% endblock %}
 {% block content %}
 <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center">
   <button onclick="filterReqs('')" class="btn-admin btn-primary-admin" id="rf-all">All ({{ requests|length }})</button>
@@ -19,8 +19,8 @@
     <td style="font-size:.78rem;color:var(--text-3);white-space:nowrap">{{ r.created_at|date:"d M Y" }}</td>
     <td><form method="POST" action="{% url 'admin_update_request' r.id %}" style="display:flex;gap:5px;align-items:center">{% csrf_token %}
       <select name="status" class="admin-input small" style="width:100px"><option value="new" {% if r.status == 'new' %}selected{% endif %}>New</option><option value="pending" {% if r.status == 'pending' %}selected{% endif %}>Pending</option><option value="resolved" {% if r.status == 'resolved' %}selected{% endif %}>Resolved</option></select>
-      <button type="submit" class="btn-admin btn-success-admin" style="padding:5px 10px"><i class="fas fa-check"></i></button>
-      <a href="mailto:{{ r.email }}?subject=Re: {{ r.subject|urlencode }}" class="btn-admin btn-secondary-admin" style="padding:5px 10px"><i class="fas fa-reply"></i></a>
+      <button type="submit" class="btn-admin btn-success-admin" style="padding:5px 10px">{% icon "check" %}</button>
+      <a href="mailto:{{ r.email }}?subject=Re: {{ r.subject|urlencode }}" class="btn-admin btn-secondary-admin" style="padding:5px 10px">{% icon "reply" %}</a>
     </form></td>
   </tr>{% empty %}<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:32px">No enquiries yet.</td></tr>{% endfor %}</tbody>
   </table>

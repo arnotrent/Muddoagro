@@ -4,7 +4,6 @@
   function getStored() { try { return localStorage.getItem(KEY) || 'light'; } catch { return 'light'; } }
   function apply(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    document.querySelectorAll('[data-theme-icon]').forEach(el => { el.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon'; });
     try { localStorage.setItem(KEY, theme); } catch {}
     document.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
   }

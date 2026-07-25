@@ -1,5 +1,5 @@
-{% extends "admin/base_admin.html" %}
-{% block title %}Supply Requests{% endblock %}{% block page_icon %}truck{% endblock %}{% block page_heading %}Supply Requests{% endblock %}
+{% extends "admin/base_admin.html" %}{% load icons %}
+{% block title %}Supply Requests{% endblock %}{% block page_icon %}{% icon "truck" %}{% endblock %}{% block page_heading %}Supply Requests{% endblock %}
 {% block content %}
 <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
   <button onclick="filterSR('')" class="btn-admin btn-primary-admin" id="sf-all">All ({{ requests|length }})</button>
@@ -16,7 +16,7 @@
     <td style="font-size:.82rem;color:var(--text-3);max-width:180px">{{ r.notes|default:"—"|truncatechars:60 }}</td>
     <td><span class="badge badge-{{ r.status }}">{{ r.status|title }}</span></td>
     <td style="font-size:.78rem;color:var(--text-3);white-space:nowrap">{{ r.created_at|date:"d M Y" }}</td>
-    <td><button onclick="openRespond({{ r.id }},'{{ r.product_name|escapejs }}','{{ r.agent.name|escapejs }}')" class="btn-admin btn-primary-admin" style="padding:5px 12px;font-size:.8rem"><i class="fas fa-reply"></i>Respond</button></td>
+    <td><button onclick="openRespond({{ r.id }},'{{ r.product_name|escapejs }}','{{ r.agent.name|escapejs }}')" class="btn-admin btn-primary-admin" style="padding:5px 12px;font-size:.8rem">{% icon "reply" %}Respond</button></td>
   </tr>{% empty %}<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:32px">No supply requests yet.</td></tr>{% endfor %}</tbody>
   </table>
 </div></div>
@@ -27,7 +27,7 @@
     <form id="srForm" method="POST">{% csrf_token %}
       <div class="admin-form-group"><label>Decision</label><select name="status" class="admin-input"><option value="approved">✓ Approve</option><option value="denied">✗ Deny</option></select></div>
       <div class="admin-form-group"><label>Response Message</label><textarea name="response" class="admin-input" rows="3" placeholder="Details on delivery, availability, or reason for denial…"></textarea></div>
-      <div style="display:flex;gap:10px"><button type="submit" class="btn-admin btn-primary-admin"><i class="fas fa-paper-plane"></i>Send Response</button><button type="button" onclick="document.getElementById('srModal').style.display='none'" class="btn-admin btn-secondary-admin"><i class="fas fa-times"></i>Cancel</button></div>
+      <div style="display:flex;gap:10px"><button type="submit" class="btn-admin btn-primary-admin">{% icon "paper-plane" %}Send Response</button><button type="button" onclick="document.getElementById('srModal').style.display='none'" class="btn-admin btn-secondary-admin">{% icon "times" %}Cancel</button></div>
     </form>
   </div>
 </div>

@@ -184,13 +184,17 @@ p  { font-size: 1rem; color: var(--text-2); }
   transition: transform var(--dur) var(--ease), box-shadow var(--dur), border-color var(--dur);
 }
 .product-card:hover { transform: translateY(-6px) scale(1.015); border-color:var(--accent-blue); box-shadow:var(--sh-lg); }
-.product-card-img { position:relative; height:200px; overflow:hidden; background:var(--bg-alt); }
+.product-card-img { position:relative; height:210px; overflow:hidden; background:var(--bg-alt); }
 .product-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 450ms var(--ease), filter var(--dur); }
 .product-card:hover .product-card-img img { transform: scale(1.06); filter:brightness(1.03); }
-.stock-badge { position:absolute; top:10px; right:10px; padding:4px 10px; border-radius:var(--r-badge); font-size:.64rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; z-index:3; display:inline-flex; align-items:center; gap:4px; color:#fff; }
-.stock-in  { background: rgba(74,222,128,.92); }
-.stock-low { background: rgba(56,189,248,.92); }
-.stock-out { background: rgba(239,68,68,.92); }
+.product-card-img::after {
+  content:''; position:absolute; inset:auto 0 0 0; height:60%; z-index:1; pointer-events:none;
+  background:linear-gradient(to top, rgba(15,23,42,.32) 0%, transparent 100%);
+}
+.stock-badge { position:absolute; top:10px; right:10px; padding:4px 10px; border-radius:var(--r-badge); font-size:.64rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; z-index:3; display:inline-flex; align-items:center; gap:4px; color:#fff; backdrop-filter:blur(3px); }
+.stock-in  { background: rgba(74,222,128,.9); }
+.stock-low { background: rgba(56,189,248,.9); }
+.stock-out { background: rgba(239,68,68,.9); }
 .quick-view-btn {
   position:absolute; bottom:12px; left:50%; transform:translateX(-50%) translateY(10px);
   background: rgba(15,23,42,.85); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:var(--r-badge);
@@ -198,18 +202,27 @@ p  { font-size: 1rem; color: var(--text-2); }
   transition: all var(--dur) var(--ease); z-index:3; cursor:pointer;
 }
 .product-card:hover .quick-view-btn { opacity:1; transform:translateX(-50%) translateY(0); }
-.product-card-body { padding:16px 18px 18px; display:flex; flex-direction:column; flex:1; }
-.product-tag { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:var(--r-badge); font-size:.65rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:9px; background:var(--bg-alt); color:var(--accent-blue); }
-.tag-pesticide { color: var(--accent-red); }
-.tag-fungicide { color: var(--accent-blue); }
-.tag-herbicide, .tag-other { color: var(--accent-green-hover, var(--accent-green)); }
-.product-card-body h3 { font-size:.98rem; font-weight:700; color:var(--text-1); margin-bottom:6px; line-height:1.3; transition:color var(--dur); }
+.product-card-body { padding:18px 20px 20px; display:flex; flex-direction:column; flex:1; }
+
+/* Category tag — a small icon chip + plain label, not a filled pill */
+.product-tag { display:inline-flex; align-items:center; gap:8px; margin-bottom:11px; font-size:.68rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-3); }
+.product-tag i { width:22px; height:22px; border-radius:7px; display:inline-flex; align-items:center; justify-content:center; font-size:.66rem; background:var(--bg-alt); flex-shrink:0; }
+.tag-pesticide i { color:var(--accent-red); background:rgba(239,68,68,.1); }
+.tag-fungicide i { color:var(--accent-blue); background:rgba(56,189,248,.1); }
+.tag-herbicide i, .tag-other i { color:#16A34A; background:rgba(74,222,128,.14); }
+
+.product-card-body h3 { font-size:1.02rem; font-weight:700; color:var(--text-1); margin-bottom:7px; line-height:1.3; transition:color var(--dur); }
 .product-card:hover .product-card-body h3 { color: var(--accent-blue); }
-.product-card-body>p { font-size:.84rem; color:var(--text-3); line-height:1.65; margin-bottom:12px; }
-.spec-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-.spec-pill { display:flex; align-items:center; gap:4px; padding:4px 9px; background:var(--bg-alt); border:1px solid var(--border); border-radius:7px; font-size:.71rem; color:var(--text-2); }
-.spec-pill strong { color: var(--text-1); font-weight:700; }
-.product-card-footer { display:flex; gap:8px; margin-top:auto; padding-top:14px; border-top:1px solid var(--border); }
+.product-card-body>p { font-size:.85rem; color:var(--text-3); line-height:1.62; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+/* Specs — a clean fact panel instead of chip-soup */
+.spec-pills { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; padding:12px 14px; background:var(--bg-alt); border-radius:11px; border:1px solid var(--border); }
+.spec-pill { display:flex; align-items:baseline; gap:7px; background:none; border:none; padding:0; font-size:.78rem; color:var(--text-2); line-height:1.4; }
+.spec-pill i { color:var(--accent-blue); width:13px; text-align:center; font-size:.68rem; flex-shrink:0; }
+.spec-pill strong { color:var(--accent-blue); font-weight:700; font-size:.66rem; text-transform:uppercase; letter-spacing:.04em; flex-shrink:0; }
+.product-card-footer { display:flex; gap:8px; margin-top:auto; padding-top:16px; border-top:1px solid var(--border); }
+.product-card-footer .btn-outline { border-color:transparent; background:var(--bg-alt); }
+.product-card-footer .btn-outline:hover { border-color:var(--accent-blue); background:var(--bg-card); }
 
 .why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 .why-card {
@@ -340,6 +353,21 @@ input.success, textarea.success { border-color:var(--accent-green); }
 .modal-body { padding:24px; }
 
 /* Focus ring — accessibility */
+/* ══════════════════════════════════════════════════════════
+   INLINE SVG ICON SYSTEM
+══════════════════════════════════════════════════════════ */
+.icon { display: inline-block; vertical-align: -0.125em; flex-shrink: 0; }
+.icon-spin { animation: iconSpin 0.8s linear infinite; }
+@keyframes iconSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Theme toggle — both icons render, CSS shows only the relevant one
+   (no JS class-swapping, so it can never fall back to a broken glyph) */
+.theme-toggle-nav { position: relative; }
+.theme-icon-slot { display: inline-flex; align-items: center; justify-content: center; }
+.theme-icon-sun { display: none; }
+[data-theme="dark"] .theme-icon-moon { display: none; }
+[data-theme="dark"] .theme-icon-sun { display: inline-flex; }
+
 :focus-visible { outline:2px solid var(--accent-blue); outline-offset:2px; border-radius:4px; }
 
 ::-webkit-scrollbar { width:7px; height:7px; }
